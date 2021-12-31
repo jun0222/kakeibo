@@ -39,4 +39,5 @@ model Shopping {
   shop     String
   product  String
   price    Int
+  userId    String?
 }
