@@ -30,10 +30,13 @@ model User {
   links     Link[]
 }
 
-model prisma_test {
-  id         Int      @id @default(autoincrement())
-  timestamp  DateTime
-  hogehoge   String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+model Shopping {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      DateTime @default(now())
+  type     String
+  shop     String
+  product  String
+  price    Int
 }
