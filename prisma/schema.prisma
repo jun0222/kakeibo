@@ -17,11 +17,11 @@ model Link {
   updatedAt DateTime @updatedAt
   url       String
   shortUrl  String
-  shoppingId    String?
-  Shopping      Shopping?    @relation(fields: [shoppingId], references: [id])
+  userId    String?
+  User      User?    @relation(fields: [userId], references: [id])
 }
 
-model Shopping {
+model User {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
