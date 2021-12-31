@@ -35,8 +35,4 @@ model Shopping {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   date      DateTime @default(now())
-  type     String
-  shop     String
-  product  String
-  price    Int
 }
