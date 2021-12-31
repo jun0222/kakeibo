@@ -18,18 +18,14 @@ model Link {
   url       String
   shortUrl  String
   userId    String?
-  User      User?    @relation(fields: [userId], references: [id])
+  Shopping      Shopping?    @relation(fields: [userId], references: [id])
 }
 
-model User {
+model Shopping {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String?
   email     String
   links     Link[]
-}
-
-model Shopping {
-  id        String   @id
 }
