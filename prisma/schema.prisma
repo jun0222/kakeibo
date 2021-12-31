@@ -17,8 +17,8 @@ model Link {
   updatedAt DateTime @updatedAt
   url       String
   shortUrl  String
-  userId    String?
-  Shopping      Shopping?    @relation(fields: [userId], references: [id])
+  shoppingId    String?
+  Shopping      Shopping?    @relation(fields: [shoppingId], references: [id])
 }
 
 model Shopping {
