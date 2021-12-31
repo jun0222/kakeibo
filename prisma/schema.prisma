@@ -34,5 +34,4 @@ model Shopping {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  date      DateTime @default(now())
 }
