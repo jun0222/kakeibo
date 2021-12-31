@@ -29,3 +29,11 @@ model User {
   email     String
   links     Link[]
 }
+
+model prisma_test {
+  id         Int      @id @default(autoincrement())
+  timestamp  DateTime
+  hogehoge   String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
