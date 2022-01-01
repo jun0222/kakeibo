@@ -18,7 +18,7 @@ export default ({ user }) => {
 
   return (
     <div> 
-      {JSON.stringify(user)}
+      {/* {JSON.stringify(user)} */}
     </div>
   )
 }
