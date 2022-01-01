@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { useEffect, useState } from 'react';
 
 export const getServerSideProps = async ({ req }) => {
-  const prisma = new PrismaClient()
+  const prisma: PrismaClient = new PrismaClient()
 
   const uniqueUser = await prisma.shopping.findMany()
   // Date型でエラーが起きるので、一度stringifyしてからparse
