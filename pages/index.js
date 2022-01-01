@@ -4,11 +4,7 @@ import { useEffect, useState } from 'react';
 export const getServerSideProps = async ({ req }) => {
   const prisma = new PrismaClient()
 
-  const uniqueUser = await prisma.user.findUnique({
-    where: {
-      id: '1e6d4408-3b1f-420e-b4a8-94ff92ef8c1a',
-    },
-  })
+  const uniqueUser = await prisma.shopping.findMany()
   // Date型でエラーが起きるので、一度stringifyしてからparse
   const user = JSON.parse(JSON.stringify(uniqueUser));
 
