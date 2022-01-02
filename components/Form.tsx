@@ -1,4 +1,28 @@
+import { useState } from "react"
+
 export default function Form() {
+    const [date, setDate] = useState("2021/01/02")
+    const [type, setType] = useState("")
+    const [shop, setShop] = useState("")
+    const [product, setProduct] = useState("")
+    const [price, setPrice] = useState("")
+    const [userId, setUserId] = useState("test-user")
+
+    const getInputTextForDate = (event) => setDate(event.target.value);
+    const getInputTextForType = (event) => setType(event.target.value);
+    const getInputTextForShop = (event) => setShop(event.target.value);
+    const getInputTextForProduct = (event) => setProduct(event.target.value);
+    const getInputTextForPrice = (event) => setPrice(event.target.value);
+    const getInputTextForUserId = (event) => setUserId(event.target.value);
+
+    const createShopping = () => {
+        window.alert(date);
+        window.alert(type);
+        window.alert(shop);
+        window.alert(product);
+        window.alert(price);
+        window.alert(userId);
+    }
 
 return (
     <>
@@ -24,9 +48,8 @@ return (
                         日付
                     </label>
                     <input
-                        id="date"
-                        type="date"
-                        name="date"
+                        value={date}
+                        onChange={getInputTextForDate}
                         placeholder="今日の日付をstateから持ってくる"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -41,9 +64,8 @@ return (
                         分類
                     </label>
                     <input
-                        id="type"
-                        type="text"
-                        name="type"
+                        value={type}
+                        onChange={getInputTextForType}
                         placeholder="食費"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -58,9 +80,8 @@ return (
                         店舗
                     </label>
                     <input
-                        id="shop"
-                        type="text"
-                        name="shop"
+                        value={shop}
+                        onChange={getInputTextForShop}
                         placeholder="八百屋サンプル"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -75,9 +96,8 @@ return (
                         品物
                     </label>
                     <input
-                        id="product"
-                        type="text"
-                        name="product"
+                        value={product}
+                        onChange={getInputTextForProduct}
                         placeholder="食材"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -92,9 +112,8 @@ return (
                         金額
                     </label>
                     <input
-                        id="price"
-                        type="number"
-                        name="price"
+                        value={price}
+                        onChange={getInputTextForPrice}
                         placeholder="600"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -103,10 +122,9 @@ return (
                     {/* userId、一旦"test-user"で登録。current_user_idを入れる様にする。 */}
                     <div className="mb-6">
                     <input
-                        id="userId"
+                        value={userId}
+                        onChange={getInputTextForUserId}
                         type="hidden"
-                        name="userId"
-                        value="test-user"
                         placeholder="600"
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                     />
@@ -117,6 +135,7 @@ return (
                     <button
                         type="submit"
                         className="w-full px-3 py-4 font-bold text-white bg-green-500 rounded-md focus:bg-green-600 focus:outline-none"
+                        onClick={createShopping}
                     >
                         送信する
                     </button>
