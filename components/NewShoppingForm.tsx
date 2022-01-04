@@ -15,19 +15,6 @@ export default function NewShoppingForm() {
         return (y + '/' + m + '/' + d);
     }
     const today = formatDate(new Date());
-    const [date, setDate] = useState(today);
-    const [type, setType] = useState("");
-    const [shop, setShop] = useState("");
-    const [product, setProduct] = useState("");
-    const [price, setPrice] = useState(0);
-    const [userId, setUserId] = useState("test-user");
-
-    const getInputTextForDate = (event) => setDate(event);
-    const getInputTextForType = (event) => setType(event.target.value);
-    const getInputTextForShop = (event) => setShop(event.target.value);
-    const getInputTextForProduct = (event) => setProduct(event.target.value);
-    const getInputTextForPrice = (event) => setPrice(event.target.value);
-    const getInputTextForUserId = (event) => setUserId(event.target.value);
 
     const [form, update] = useState({
         date: today,
@@ -39,22 +26,8 @@ export default function NewShoppingForm() {
     });
 
     const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
-        // ev.preventDefault();
-        // update({
-        //     date: "",
-        //     type: "",
-        //     shop: "",
-        //     product: "",
-        //     price: 0,
-        //     userId: "1"
-        // });
-        // return fetch("/api/shoppings", {
-        //     method: "POST",
-        //     body: JSON.stringify(form),
-        // });
-        console.log(form)
         await axios.post('/api/shopping', {
-            body: form
+            params: form
         })
     };
 
@@ -147,7 +120,7 @@ export default function NewShoppingForm() {
                         </label>
                         <input
                             value={form.price}
-                            onChange={(e) => update({ ...form, price: e.target.value })}
+                            onChange={(e) => update({ ...form, price: Number(e.target.value) })}
                             placeholder="600"
                             className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                         />
