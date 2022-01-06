@@ -115,8 +115,9 @@ export default function NewShoppingForm() {
                             金額
                         </label>
                         <input
+                            type="number"
                             value={form.price}
-                            onChange={(e) => update({ ...form, price: Number(e.target.value) })}
+                            onChange={(e) => update({ ...form, price: e.target.valueAsNumber })}
                             placeholder="600"
                             className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                         />
