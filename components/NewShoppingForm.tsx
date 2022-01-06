@@ -138,7 +138,6 @@ export default function NewShoppingForm() {
                         <button
                             type="submit"
                             className="w-full px-3 py-4 font-bold text-white bg-green-500 rounded-md focus:bg-green-600 focus:outline-none"
-                            // onClick={saveShopping}
                         >
                             送信する
                         </button>
