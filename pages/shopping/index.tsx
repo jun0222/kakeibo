@@ -17,15 +17,13 @@ export default () => {
 
     return (
         <>
-            <div>
-                {
-                    shoppingAll.map(shopping => {
-                        return(
-                            <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>
-                        )
-                    })
-                }
-            </div>
+            {shoppingAll.map(shopping => {
+                return(
+                    <>
+                        { /\b2022-01/.test(shopping.date) && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
+                    </>
+                )
+            })}
         </>
     )
 }
