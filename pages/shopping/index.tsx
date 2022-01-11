@@ -4,12 +4,13 @@ import Moment from 'moment';
 
 export default () => {
     const [shoppingAll, setShoppingAll] = useState([]);
-    const [filterYear, setFilterYear] = useState("");
-    const [filterMonth, setFilterMonth] = useState("");
-    const [filterDate, setFilterDate] = useState("");
+    const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
+    const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
+    const [filterYYYYMM, setFilterYYYYMM] = useState("");
     Moment.locale('ja');
 
     useEffect(() => {
+        // 買い物データ取得
         async function fetchData() {
             const response = await axios.get('/api/shopping');
             setShoppingAll(response.data);
@@ -17,15 +18,16 @@ export default () => {
         }
         fetchData();
 
-        const filter = filterYear + "-" + filterMonth;
-        console.log(filter)
-        setFilterDate(filter)
-    },[filterYear, filterMonth])
+        // 日付フィルター
+        const filter = filterYYYY + "-" + filterMM;
+        setFilterYYYYMM(filter)
+    },[filterYYYY, filterMM])
 
     return (
         <>
             <select
-                onChange={(e) => {setFilterYear(e.target.value)}}
+                value={filterYYYY}
+                onChange={(e) => {setFilterYYYY(e.target.value)}}
             >
                 <option value="2021">2021</option>
                 <option value="2022">2022</option>
@@ -39,7 +41,8 @@ export default () => {
             </select>
 
             <select
-                onChange={(e) => {setFilterMonth(e.target.value)}}
+                value={filterMM}
+                onChange={(e) => {setFilterMM(e.target.value)}}
             >
                 <option value="01">01</option>
                 <option value="02">02</option>
@@ -58,7 +61,7 @@ export default () => {
             {shoppingAll.map(shopping => {
                 return(
                     <>
-                        { filterDate === Moment(shopping.date).format('YYYY-MM') && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
+                        { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
                     </>
                 )
             })}
