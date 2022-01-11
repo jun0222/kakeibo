@@ -6,6 +6,7 @@ export default () => {
     const [shoppingAll, setShoppingAll] = useState([]);
     const [filterYear, setFilterYear] = useState("");
     const [filterMonth, setFilterMonth] = useState("");
+    const [filterDate, setFilterDate] = useState("");
     Moment.locale('ja');
 
     useEffect(() => {
@@ -15,7 +16,11 @@ export default () => {
             return response;
         }
         fetchData();
-    },[])
+
+        const filter = filterYear + "-" + filterMonth;
+        console.log(filter)
+        setFilterDate(filter)
+    },[filterYear, filterMonth])
 
     return (
         <>
@@ -53,7 +58,7 @@ export default () => {
             {shoppingAll.map(shopping => {
                 return(
                     <>
-                        { /\b2022-01/.test(shopping.date) && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
+                        { filterDate === Moment(shopping.date).format('YYYY-MM') && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
                     </>
                 )
             })}
