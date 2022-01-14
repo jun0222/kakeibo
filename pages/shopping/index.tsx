@@ -25,7 +25,7 @@ ChartJS.register(
     Legend,
     ArcElement
 )
-export default () => {
+export default function ShoppingIndex () {
     const [shoppingAll, setShoppingAll] = useState([]);
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));

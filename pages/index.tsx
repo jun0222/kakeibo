@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import NewShoppingForm from '../components/NewShoppingForm';
+import ShoppingIndex from './shopping';
 
 
 export default () => {
   return (
     <>
-      <NewShoppingForm />
+      <ShoppingIndex />
     </>
   )
 }
