@@ -100,14 +100,33 @@ export default () => {
                 <option value="11">11</option>
                 <option value="12">12</option>
             </select>
+            <table className="table-fixed">
+                <thead>
+                    <tr>
+                    <th className="w-1/4 px-4 py-2">日付</th>
+                    <th className="w-1/4 px-4 py-2">金額</th>
+                    <th className="w-1/4 px-4 py-2">品名</th>
+                    <th className="w-1/4 px-4 py-2">店舗</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {shoppingAll.map(shopping => {
+                        return(
+                            <>
+                                { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') &&
+                                <tr key={shopping.id}>
+                                    <td className="border px-4 py-2">{Moment(shopping.date).format('YYYY-MM-DD')}</td>
+                                    <td className="border px-4 py-2">{shopping.price}</td>
+                                    <td className="border px-4 py-2">{shopping.product}</td>
+                                    <td className="border px-4 py-2">{shopping.shop}</td>
+                                </tr>}
+                            </>
+                        )
+                    })}
+                </tbody>
+            </table>
 
-            {shoppingAll.map(shopping => {
-                return(
-                    <>
-                        { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') && <div key={shopping.id}>{Moment(shopping.date).format('YYYY-MM-DD')}, {shopping.price}, {shopping.product}, {shopping.shop}</div>}
-                    </>
-                )
-            })}
+
         </>
     )
 }
