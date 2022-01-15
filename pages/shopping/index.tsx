@@ -56,20 +56,11 @@ export default function ShoppingIndex () {
             }
         ]
     } 
-    const divStyle: React.CSSProperties = {
-        margin: "10px auto",
-        width: "500px",
-    };
-    const shoppingFieldStyle: React.CSSProperties = {
-        margin: "10px auto",
-        width: "800px",
-    };
-
 
     return (
         <>
             <div className="container mx-auto">
-                <div className="App" style={divStyle}>
+                <div className="App w-1/2 lg:w-1/3 mx-auto">
                     <Pie data={data} />
                 </div>
                 <div>
@@ -78,7 +69,7 @@ export default function ShoppingIndex () {
                             <select
                                 value={filterYYYY}
                                 onChange={(e) => {setFilterYYYY(e.target.value)}}
-                                className="w-1/4 p-4"
+                                className="sm:w-1/4 p-4"
                             >
                                 <option value="2021">2021年</option>
                                 <option value="2022">2022年</option>
@@ -94,7 +85,7 @@ export default function ShoppingIndex () {
                             <select
                                 value={filterMM}
                                 onChange={(e) => {setFilterMM(e.target.value)}}
-                                className="w-1/4 p-4"
+                                className="sm:w-1/4 p-4"
                             >
                                 <option value="01">01月</option>
                                 <option value="02">02月</option>
@@ -114,10 +105,10 @@ export default function ShoppingIndex () {
                     <table className="table-fixed w-3/4 mx-auto">
                         <thead>
                             <tr>
-                            <th className="border border-gray-500 w-1/4 px-4 py-2">日付</th>
-                            <th className="border border-gray-500 w-1/4 px-4 py-2">金額</th>
-                            <th className="border border-gray-500 w-1/4 px-4 py-2">品名</th>
-                            <th className="border border-gray-500 w-1/4 px-4 py-2">店舗</th>
+                            <th className="border border-gray-500 w-1/4 sm:px-4 sm:py-2">日付</th>
+                            <th className="border border-gray-500 w-1/4 sm:px-4 sm:py-2">金額</th>
+                            <th className="border border-gray-500 w-1/4 sm:px-4 sm:py-2">品名</th>
+                            <th className="border border-gray-500 w-1/4 sm:px-4 sm:py-2">店舗</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,10 +117,10 @@ export default function ShoppingIndex () {
                                     <>
                                         { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') &&
                                         <tr key={shopping.id}>
-                                            <td className="border border-gray-500 px-4 py-2">{Moment(shopping.date).format('YYYY-MM-DD')}</td>
-                                            <td className="border border-gray-500 px-4 py-2">{shopping.price}</td>
-                                            <td className="border border-gray-500 px-4 py-2">{shopping.product}</td>
-                                            <td className="border border-gray-500 px-4 py-2">{shopping.shop}</td>
+                                            <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{Moment(shopping.date).format('MM-DD')}</td>
+                                            <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.price}</td>
+                                            <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.product}</td>
+                                            <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.shop}</td>
                                         </tr>}
                                     </>
                                 )
