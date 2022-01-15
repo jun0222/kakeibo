@@ -57,74 +57,87 @@ export default function ShoppingIndex () {
         ]
     } 
     const divStyle: React.CSSProperties = {
-        marginLeft: "auto",
-        marginRight: "auto",
-        margin: "10px",
+        margin: "10px auto",
         width: "500px",
     };
+    const shoppingFieldStyle: React.CSSProperties = {
+        margin: "10px auto",
+        width: "800px",
+    };
+
 
     return (
         <>
-            <div className="App" style={divStyle}>
-                <Pie data={data} />
-            </div>
-            <select
-                value={filterYYYY}
-                onChange={(e) => {setFilterYYYY(e.target.value)}}
-            >
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
-                <option value="2028">2028</option>
-                <option value="2029">2029</option>
-            </select>
+            <div className="container mx-auto">
+                <div className="App" style={divStyle}>
+                    <Pie data={data} />
+                </div>
+                <div>
+                    <div className="w-3/4 mx-auto">
+                        <div className="text-right">
+                            <select
+                                value={filterYYYY}
+                                onChange={(e) => {setFilterYYYY(e.target.value)}}
+                                className="w-1/4 p-4"
+                            >
+                                <option value="2021">2021年</option>
+                                <option value="2022">2022年</option>
+                                <option value="2023">2023年</option>
+                                <option value="2024">2024年</option>
+                                <option value="2025">2025年</option>
+                                <option value="2026">2026年</option>
+                                <option value="2027">2027年</option>
+                                <option value="2028">2028年</option>
+                                <option value="2029">2029年</option>
+                            </select>
 
-            <select
-                value={filterMM}
-                onChange={(e) => {setFilterMM(e.target.value)}}
-            >
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
-            <table className="table-fixed">
-                <thead>
-                    <tr>
-                    <th className="w-1/4 px-4 py-2">日付</th>
-                    <th className="w-1/4 px-4 py-2">金額</th>
-                    <th className="w-1/4 px-4 py-2">品名</th>
-                    <th className="w-1/4 px-4 py-2">店舗</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {shoppingAll.map(shopping => {
-                        return(
-                            <>
-                                { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') &&
-                                <tr key={shopping.id}>
-                                    <td className="border px-4 py-2">{Moment(shopping.date).format('YYYY-MM-DD')}</td>
-                                    <td className="border px-4 py-2">{shopping.price}</td>
-                                    <td className="border px-4 py-2">{shopping.product}</td>
-                                    <td className="border px-4 py-2">{shopping.shop}</td>
-                                </tr>}
-                            </>
-                        )
-                    })}
-                </tbody>
-            </table>
+                            <select
+                                value={filterMM}
+                                onChange={(e) => {setFilterMM(e.target.value)}}
+                                className="w-1/4 p-4"
+                            >
+                                <option value="01">01月</option>
+                                <option value="02">02月</option>
+                                <option value="03">03月</option>
+                                <option value="04">04月</option>
+                                <option value="05">05月</option>
+                                <option value="06">06月</option>
+                                <option value="07">07月</option>
+                                <option value="08">08月</option>
+                                <option value="09">09月</option>
+                                <option value="10">10月</option>
+                                <option value="11">11月</option>
+                                <option value="12">12月</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table className="table-fixed w-3/4 mx-auto">
+                        <thead>
+                            <tr>
+                            <th className="border border-gray-500 w-1/4 px-4 py-2">日付</th>
+                            <th className="border border-gray-500 w-1/4 px-4 py-2">金額</th>
+                            <th className="border border-gray-500 w-1/4 px-4 py-2">品名</th>
+                            <th className="border border-gray-500 w-1/4 px-4 py-2">店舗</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {shoppingAll.map(shopping => {
+                                return(
+                                    <>
+                                        { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') &&
+                                        <tr key={shopping.id}>
+                                            <td className="border border-gray-500 px-4 py-2">{Moment(shopping.date).format('YYYY-MM-DD')}</td>
+                                            <td className="border border-gray-500 px-4 py-2">{shopping.price}</td>
+                                            <td className="border border-gray-500 px-4 py-2">{shopping.product}</td>
+                                            <td className="border border-gray-500 px-4 py-2">{shopping.shop}</td>
+                                        </tr>}
+                                    </>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
         </>
