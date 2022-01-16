@@ -30,7 +30,24 @@ export default function ShoppingIndex () {
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
+    const [sumShopping, setSumShopping] = useState({});
     Moment.locale('ja');
+
+    // ここで合計値を取得して、setShoppingAll(response.data);の最後に入れる
+    function getSumShopping () {
+        const sumShoppingObj = {
+            id: "-",
+            date: "-",
+            price: "",
+            product: "",
+            shop: "",
+            type: "",
+            updatedAt: "",
+            createdAt: "",
+            userId: "-"
+        }
+        setSumShopping(sumShoppingObj);
+    }
 
     useEffect(() => {
         // 買い物データ取得
