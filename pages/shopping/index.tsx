@@ -30,29 +30,33 @@ export default function ShoppingIndex () {
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
-    const [sumShopping, setSumShopping] = useState({});
     Moment.locale('ja');
 
     // ここで合計値を取得して、setShoppingAll(response.data);の最後に入れる
-    function getSumShopping () {
+    function getSumShopping (items) {
+        const total = items.reduce((sum, i) => sum + i.price, 0);
         const sumShoppingObj = {
             id: "-",
-            date: "-",
-            price: "",
-            product: "",
-            shop: "",
+            date: "2022-01-06T15:01:20.782Z", // 日付も対応しないと完成しない。しかも表示上は合計にしたい。
+            price: total,
+            product: "-",
+            shop: "-",
             type: "",
             updatedAt: "",
             createdAt: "",
             userId: "-"
         }
-        setSumShopping(sumShoppingObj);
+        return sumShoppingObj;
     }
 
     useEffect(() => {
         // 買い物データ取得
         async function fetchData() {
             const response = await axios.get('/api/shopping');
+            const getShopping = response.data;
+            console.log("getShopping", getShopping)
+            console.log("getSumShopping(response.data)", getSumShopping(response.data))
+            console.log(getShopping.push(getSumShopping(response.data))) // これだとreturnしたのを入れてる、代入しなきゃ。
             setShoppingAll(response.data);
             return response;
         }
