@@ -34,7 +34,10 @@ export default function ShoppingIndex () {
 
     // ここで合計値を取得して、setShoppingAll(response.data);の最後に入れる
     function getSumShopping (items, date) {
-        const total = items.reduce((sum, i) => sum + i.price, 0);
+        const thisDateItems = items.filter(item => {
+            return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
+        })
+        const total = thisDateItems.reduce((sum, i) => sum + i.price, 0);
         const sumShoppingObj = {
             id: "-",
             date: date, // 日付も対応しないと完成しない。しかも表示上は合計にしたい。
@@ -65,8 +68,6 @@ export default function ShoppingIndex () {
 
             // domにデータを反映
             setShoppingAll(shoppingData)
-
-            // 合計値について、とりあえず表示だけはできたので、dateが適切に切り替わるようにする。
         }
         fetchData();
 
