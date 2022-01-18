@@ -32,7 +32,6 @@ export default function ShoppingIndex () {
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
     Moment.locale('ja');
 
-    // ここで合計値を取得して、setShoppingAll(response.data);の最後に入れる
     function getSumShopping (items, date) {
         const thisDateItems = items.filter(item => {
             return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
@@ -40,7 +39,7 @@ export default function ShoppingIndex () {
         const total = thisDateItems.reduce((sum, i) => sum + i.price, 0);
         const sumShoppingObj = {
             id: "-",
-            date: date, // 日付も対応しないと完成しない。しかも表示上は合計にしたい。
+            date: date,
             price: total,
             product: "-",
             shop: "-",
@@ -60,10 +59,8 @@ export default function ShoppingIndex () {
             // dbからとったshoppingデータ
             const shoppingData = response.data;
 
-            // shoppingデータの合計金額
+            // shoppingデータに合計金額を追加
             const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
-
-            // shopping一つ一つのデータと合計金額を合わせた配列を作る
             shoppingData.push(sumShoppingData)
 
             // domにデータを反映
