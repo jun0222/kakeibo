@@ -33,11 +33,11 @@ export default function ShoppingIndex () {
     Moment.locale('ja');
 
     // ここで合計値を取得して、setShoppingAll(response.data);の最後に入れる
-    function getSumShopping (items) {
+    function getSumShopping (items, date) {
         const total = items.reduce((sum, i) => sum + i.price, 0);
         const sumShoppingObj = {
             id: "-",
-            date: "2022-01-06T15:01:20.782Z", // 日付も対応しないと完成しない。しかも表示上は合計にしたい。
+            date: date, // 日付も対応しないと完成しない。しかも表示上は合計にしたい。
             price: total,
             product: "-",
             shop: "-",
@@ -53,12 +53,20 @@ export default function ShoppingIndex () {
         // 買い物データ取得
         async function fetchData() {
             const response = await axios.get('/api/shopping');
-            const getShopping = response.data;
-            console.log("getShopping", getShopping)
-            console.log("getSumShopping(response.data)", getSumShopping(response.data))
-            console.log(getShopping.push(getSumShopping(response.data))) // これだとreturnしたのを入れてる、代入しなきゃ。
-            setShoppingAll(response.data);
-            return response;
+
+            // dbからとったshoppingデータ
+            const shoppingData = response.data;
+
+            // shoppingデータの合計金額
+            const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
+
+            // shopping一つ一つのデータと合計金額を合わせた配列を作る
+            shoppingData.push(sumShoppingData)
+
+            // domにデータを反映
+            setShoppingAll(shoppingData)
+
+            // 合計値について、とりあえず表示だけはできたので、dateが適切に切り替わるようにする。
         }
         fetchData();
 
