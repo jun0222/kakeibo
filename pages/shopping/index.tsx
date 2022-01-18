@@ -44,7 +44,7 @@ export default function ShoppingIndex () {
             type: "",
             updatedAt: "",
             createdAt: "",
-            userId: "-"
+            userId: "合計"
         }
         return sumShoppingObj;
     }
@@ -146,7 +146,14 @@ export default function ShoppingIndex () {
                                     <>
                                         { filterYYYYMM === Moment(shopping.date).format('YYYY-MM') &&
                                         <tr key={shopping.id}>
-                                            <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{Moment(shopping.date).format('MM-DD')}</td>
+                                            {   
+                                                shopping.userId === "合計" &&
+                                                <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.userId}</td>
+                                            }
+                                            {   
+                                                shopping.userId !== "合計" &&
+                                                <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{Moment(shopping.date).format('MM-DD')}</td>
+                                            }
                                             <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.price}</td>
                                             <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.product}</td>
                                             <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.shop}</td>
