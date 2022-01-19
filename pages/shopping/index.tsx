@@ -32,6 +32,15 @@ export default function ShoppingIndex () {
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
     Moment.locale('ja');
 
+    function getKindShopping (shoppingData, date) {
+        const thisDateItems = shoppingData.filter(item => {
+            return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
+        })
+        const shopArray = thisDateItems.map((item) => item.shop);
+        const shopKindArray = [...new Set(shopArray)]
+        return shopKindArray;
+    }
+
     function getSumShopping (items, date) {
         const thisDateItems = items.filter(item => {
             return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
@@ -58,6 +67,11 @@ export default function ShoppingIndex () {
 
             // dbからとったshoppingデータ
             const shoppingData = response.data;
+
+            // shoppingデータからshopping.shopの種類を取得
+            const shopKindArray = getKindShopping(shoppingData, filterYYYY+"-"+filterMM)
+
+            // shoppingデータからshopping.priceを取得
 
             // shoppingデータに合計金額を追加
             const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
