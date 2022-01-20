@@ -32,13 +32,37 @@ export default function ShoppingIndex () {
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
     Moment.locale('ja');
 
-    function getKindShopping (shoppingData, date) {
+    function getKindShop (shoppingData, date) {
         const thisDateItems = shoppingData.filter(item => {
             return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
         })
         const shopArray = thisDateItems.map((item) => item.shop);
         const shopKindArray = [...new Set(shopArray)]
         return shopKindArray;
+    }
+
+    // keyとvalueが一致するから、こっちだけのが良いかも。price高い順に並び替えもやろう。
+    function getKindPrice (shoppingData, date) {
+        const thisDateItems = shoppingData.filter(item => {
+            return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
+        })
+
+        // const shopAndPriceArray = thisDateItems.map((item) =>  item.shop, item.price);
+        // console.log(thisDateItems)
+        // まずshopのvalueが同じものだけでグループ化するshopのvalueをキーにして、priceがvalueの新しい連想配列を作る
+        // それをreturnして、グラフに当て込む
+        // 次に
+
+        const priceKindArray = {};
+        thisDateItems.forEach((item) => {
+            for (const [key, value] of Object.entries(item)) {
+                priceKindArray[key] = 
+                priceKindArray[key] === undefined 
+                priceKindArray[key] + value
+            }
+        })
+        return priceKindArray;
+
     }
 
     function getSumShopping (items, date) {
@@ -69,9 +93,11 @@ export default function ShoppingIndex () {
             const shoppingData = response.data;
 
             // shoppingデータからshopping.shopの種類を取得
-            const shopKindArray = getKindShopping(shoppingData, filterYYYY+"-"+filterMM)
+            const shopKindArray = getKindShop(shoppingData, filterYYYY+"-"+filterMM)
 
-            // shoppingデータからshopping.priceを取得
+            // shoppingデータからshopping.priceを取得 種類ごとの合計金額
+            const priceKindArray = getKindPrice(shoppingData, filterYYYY+"-"+filterMM)
+            console.log(priceKindArray)
 
             // shoppingデータに合計金額を追加
             const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
