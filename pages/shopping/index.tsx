@@ -47,9 +47,23 @@ export default function ShoppingIndex () {
             return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
         })
 
-        // const shopAndPriceArray = thisDateItems.map((item) =>  item.shop, item.price);
-        // console.log(thisDateItems)
-        // まずshopのvalueが同じものだけでグループ化するshopのvalueをキーにして、priceがvalueの新しい連想配列を作る
+        // やっぱり最初にkeyをshop, valueをpriceにした連想配列を作るべきだ。
+        const shopArray = thisDateItems.map((item) =>  item.shop);
+        const priceArray = thisDateItems.map((item) =>  item.price);
+        console.log(shopArray)
+        console.log(priceArray)
+        // この後、shopArrayとpriceArrayを連想配列にする
+        const shopAndPriceArray = []
+        for (let i = 0; i < shopArray.length; i++) {
+            shopAndPriceArray.push(
+                {
+                    shop: shopArray[i],
+                    price: priceArray[i]
+                }
+            )
+        }
+        console.log(shopAndPriceArray)
+
         // それをreturnして、グラフに当て込む
         // 次に
 
