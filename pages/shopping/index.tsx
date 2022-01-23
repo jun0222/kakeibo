@@ -30,6 +30,8 @@ export default function ShoppingIndex () {
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
     const [filterYYYYMM, setFilterYYYYMM] = useState("");
+    const [shopKindArray, setShopKindArray] = useState([]);
+    const [priceKindArray, setPriceKindArray] = useState([]);
     Moment.locale('ja');
 
     function getKindShop (shoppingData, date) {
@@ -37,7 +39,7 @@ export default function ShoppingIndex () {
             return Moment(item.date).format('YYYY-MM') === Moment(date).format('YYYY-MM')
         })
         const shopArray = thisDateItems.map((item) => item.shop);
-        const shopKindArray = [...new Set(shopArray)]
+        const shopKindArray = [...new Set(shopArray)] // tsエラー、直す。
         return shopKindArray;
     }
 
@@ -50,9 +52,8 @@ export default function ShoppingIndex () {
         // やっぱり最初にkeyをshop, valueをpriceにした連想配列を作るべきだ。
         const shopArray = thisDateItems.map((item) =>  item.shop);
         const priceArray = thisDateItems.map((item) =>  item.price);
-        console.log(shopArray)
-        console.log(priceArray)
-        // この後、shopArrayとpriceArrayを連想配列にする
+
+        // shopがキー、priceがvalueの配列を作ってreturnする
         const shopAndPriceArray = []
         for (let i = 0; i < shopArray.length; i++) {
             shopAndPriceArray.push(
@@ -62,20 +63,16 @@ export default function ShoppingIndex () {
                 }
             )
         }
-        console.log(shopAndPriceArray)
-
-        // それをreturnして、グラフに当て込む
-        // 次に
-
-        const priceKindArray = {};
-        thisDateItems.forEach((item) => {
-            for (const [key, value] of Object.entries(item)) {
-                priceKindArray[key] = 
-                priceKindArray[key] === undefined 
-                priceKindArray[key] + value
+        const sumByShopArray = []
+        shopAndPriceArray.forEach(item => {
+            if(sumByShopArray[item.shop] === undefined){
+                sumByShopArray[item.shop] = item.price
+            } else {
+                sumByShopArray[item.shop] += item.price
             }
         })
-        return priceKindArray;
+
+        return sumByShopArray;
 
     }
 
@@ -98,6 +95,7 @@ export default function ShoppingIndex () {
         return sumShoppingObj;
     }
 
+    // useEffectが2回呼ばれるようになっているので、直す https://qiita.com/daishi/items/9b42f93c1d0e75febb92
     useEffect(() => {
         // 買い物データ取得
         async function fetchData() {
@@ -108,14 +106,13 @@ export default function ShoppingIndex () {
 
             // shoppingデータからshopping.shopの種類を取得
             const shopKindArray = getKindShop(shoppingData, filterYYYY+"-"+filterMM)
+            setShopKindArray(shopKindArray)
 
             // shoppingデータからshopping.priceを取得 種類ごとの合計金額
             const priceKindArray = getKindPrice(shoppingData, filterYYYY+"-"+filterMM)
-            console.log(priceKindArray)
-
+            setPriceKindArray(priceKindArray)
             // shoppingデータに合計金額を追加
             const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
-            shoppingData.push(sumShoppingData)
 
             // domにデータを反映
             setShoppingAll(shoppingData)
@@ -126,11 +123,19 @@ export default function ShoppingIndex () {
         const filter = filterYYYY + "-" + filterMM;
         setFilterYYYYMM(filter)
     },[filterYYYY, filterMM])
+
+    // shopごとの合計金額を出す
+    const priceSumArray = []
+    shopKindArray.forEach(item => {
+        priceSumArray.push(priceKindArray[item])
+    })
+
+    // グラフに各金額などを入れる、順番を金額大きい順に直す
     const data = {
-        labels: ['イトーヨーカドー', '業務スーパー', '外食'],
+        labels: shopKindArray,
         datasets: [
             {
-                data: [60,30,10],
+                data: priceSumArray,
                 backgroundColor: ["#4169e1","#ff1493","#FFCE56"],
                 hoverBackgroundColor:  ["#36A2EB","#FF6384","#FFCE56"],
                 borderColor: ["transparent","transparent","transparent"]
