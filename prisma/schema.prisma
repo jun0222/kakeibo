@@ -1,14 +1,12 @@
-// Schema for a simple URL shortener
-// This schema tracks short links by associating them to a user
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["dataProxy"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Link {
@@ -35,9 +33,9 @@ model Shopping {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   date      DateTime @default(now())
-  type     String
-  shop     String
-  product  String
-  price    Int
+  type      String
+  shop      String
+  product   String
+  price     Int
   userId    String?
 }
