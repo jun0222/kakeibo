@@ -8,6 +8,7 @@ export default () => {
       <>
         Signed in as {session.user.email} <br />
         <button onClick={() => signOut()}>Sign out</button>
+        <ShoppingIndex />
       </>
     )
   }
@@ -15,7 +16,6 @@ export default () => {
     <>
       Not signed in <br />
       <button onClick={() => signIn()}>Sign in</button>
-      <ShoppingIndex />
     </>
   )
 }
