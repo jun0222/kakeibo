@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react" // https://next-auth.js.org/
+import SigninForm from "../components/SigninForm";
 import ShoppingIndex from './shopping';
 
 export default () => {
@@ -14,8 +15,7 @@ export default () => {
   }
   return (
     <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <SigninForm />
     </>
   )
 }
