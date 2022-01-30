@@ -116,6 +116,7 @@ export default function ShoppingIndex () {
             setPriceKindArray(priceKindArray)
             // shoppingデータに合計金額を追加
             const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
+            shoppingData.push(sumShoppingData)
 
             // domにデータを反映
             setShoppingAll(shoppingData)
@@ -129,10 +130,10 @@ export default function ShoppingIndex () {
 
     // shopごとの合計金額を出す
     const priceSumArray = []
-    console.log(priceKindArray)
     shopKindArray.forEach(item => {
         priceSumArray.push(priceKindArray[item])
     })
+    console.log(shoppingAll)
 
     // グラフに各金額などを入れる、順番を金額大きい順に直す
     const data = {
