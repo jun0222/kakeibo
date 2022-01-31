@@ -1,9 +1,11 @@
+import { useSession } from "next-auth/react" // https://next-auth.js.org/
 import { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import axios from "axios";
 
 
 export default function NewShoppingForm() {
+    const { data: session } = useSession()
     function formatDate(dt) {
         var y = dt.getFullYear();
         var m = ('00' + (dt.getMonth()+1)).slice(-2);
@@ -18,7 +20,7 @@ export default function NewShoppingForm() {
         shop: "",
         product: "",
         price: 0,
-        userId: "1"
+        userId: session.user.email
     });
 
     const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
