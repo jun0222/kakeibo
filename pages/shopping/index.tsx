@@ -102,7 +102,11 @@ export default function ShoppingIndex () {
     useEffect(() => {
         // 買い物データ取得
         async function fetchData() {
-            const response = await axios.get('/api/shopping');
+            const response = await axios.get('/api/shopping',{
+                params: {
+                    userId: session.user.email
+                }
+            });
 
             // dbからとったshoppingデータ
             const shoppingData = response.data;

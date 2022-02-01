@@ -4,12 +4,18 @@ const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
-        const shoppings = await prisma.shopping.findMany({
-        orderBy: {
-            createdAt: "asc",
-        },
-        });
-        return res.status(200).json(shoppings);
+        const userId = req.query.userId;
+        if (typeof userId === "string"){
+            const shoppings = await prisma.shopping.findMany({
+                where: {
+                    userId: userId,
+                },
+                orderBy: {
+                    createdAt: "asc",
+                },
+            });
+            return res.status(200).json(shoppings);
+        }
     }
     if (req.method === "POST") {
         const params = req.body.params;
