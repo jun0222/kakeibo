@@ -4,7 +4,7 @@ import { createContext, useState, useContext } from 'react';
 
 const CountContext = createContext();
 
-export function useCountContext() {
+export function useCountContext(): {count: number, setCount: number} {
     return useContext(CountContext);
 }
 

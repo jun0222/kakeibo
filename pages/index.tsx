@@ -2,6 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react" // https://next-au
 import SigninForm from "../components/SigninForm";
 import ShoppingIndex from './shopping';
 import Link from 'next/link'
+import { CountProvider } from '../components/DemoContext'
 
 export default () => {
   const { data: session } = useSession()
@@ -19,7 +20,9 @@ export default () => {
   }
   return (
     <>
-      <SigninForm />
+      <CountProvider>
+        <SigninForm />
+      </CountProvider>
     </>
   )
 }
