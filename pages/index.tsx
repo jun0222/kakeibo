@@ -14,7 +14,9 @@ export default () => {
         <Link href="/shopping/new">
             <a>入力画面へ</a>
         </Link>
-        <ShoppingIndex />
+        <CountProvider>
+          <ShoppingIndex />
+        </CountProvider>
       </>
     )
   }

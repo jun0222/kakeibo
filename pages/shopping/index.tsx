@@ -1,3 +1,4 @@
+import { useCountContext } from "../../components/DemoContext"
 import { useSession, signIn, signOut } from "next-auth/react" // https://next-auth.js.org/
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -28,6 +29,7 @@ ChartJS.register(
     ArcElement
 )
 export default function ShoppingIndex () {
+    const { count, setCount } = useCountContext();
     const [shoppingAll, setShoppingAll] = useState([]);
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
@@ -154,6 +156,11 @@ export default function ShoppingIndex () {
     if (session) {
         return (
             <>
+            <div>
+                <p>Componet C</p>
+                <p>{count}</p>
+                <button onClick={() => setCount(count + 1)}>+</button>
+            </div>
                 <div className="container mx-auto">
                     <div className="App w-1/2 lg:w-1/3 mx-auto">
                         <Pie data={data} />
