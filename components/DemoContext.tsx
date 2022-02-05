@@ -4,16 +4,16 @@ import { createContext, useState, useContext } from 'react';
 
 const CountContext = createContext();
 
-export function useCountContext(): {count: number, setCount: number} {
+export function useCountContext(): {demoMode: boolean, setDemoMode: boolean} {
     return useContext(CountContext);
 }
 
 export function CountProvider({ children }) {
-    const [count, setCount] = useState(100);
+    const [demoMode, setDemoMode] = useState(false);
 
     const value = {
-        count,
-        setCount,
+        demoMode,
+        setDemoMode,
     };
 
     return (

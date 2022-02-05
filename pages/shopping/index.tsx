@@ -29,7 +29,7 @@ ChartJS.register(
     ArcElement
 )
 export default function ShoppingIndex () {
-    const { count, setCount } = useCountContext();
+    const { demoMode, setDemoMode } = useCountContext();
     const [shoppingAll, setShoppingAll] = useState([]);
     const [filterYYYY, setFilterYYYY] = useState(Moment(new Date()).format('YYYY'));
     const [filterMM, setFilterMM] = useState(Moment(new Date()).format('MM'));
@@ -104,28 +104,51 @@ export default function ShoppingIndex () {
     useEffect(() => {
         // 買い物データ取得
         async function fetchData() {
-            const response = await axios.get('/api/shopping',{
-                params: {
-                    userId: session.user.email
-                }
-            });
+            if(demoMode){
+                const response = await axios.get('/api/shopping',{
+                    params: {
+                        userId: "demo-mode"
+                    }
+                });
+                // dbからとったshoppingデータ
+                const shoppingData = response.data;
 
-            // dbからとったshoppingデータ
-            const shoppingData = response.data;
+                // shoppingデータからshopping.shopの種類を取得
+                const shopKindArray = getKindShop(shoppingData, filterYYYY+"-"+filterMM)
+                setShopKindArray(shopKindArray)
 
-            // shoppingデータからshopping.shopの種類を取得
-            const shopKindArray = getKindShop(shoppingData, filterYYYY+"-"+filterMM)
-            setShopKindArray(shopKindArray)
+                // shoppingデータからshopping.priceを取得 種類ごとの合計金額
+                const priceKindArray = getKindPrice(shoppingData, filterYYYY+"-"+filterMM)
+                setPriceKindArray(priceKindArray)
+                // shoppingデータに合計金額を追加
+                const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
+                shoppingData.push(sumShoppingData)
 
-            // shoppingデータからshopping.priceを取得 種類ごとの合計金額
-            const priceKindArray = getKindPrice(shoppingData, filterYYYY+"-"+filterMM)
-            setPriceKindArray(priceKindArray)
-            // shoppingデータに合計金額を追加
-            const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
-            shoppingData.push(sumShoppingData)
+                // domにデータを反映
+                setShoppingAll(shoppingData)
+            } else {
+                const response = await axios.get('/api/shopping',{
+                    params: {
+                        userId: session.user.email
+                    }
+                });
+                // dbからとったshoppingデータ
+                const shoppingData = response.data;
 
-            // domにデータを反映
-            setShoppingAll(shoppingData)
+                // shoppingデータからshopping.shopの種類を取得
+                const shopKindArray = getKindShop(shoppingData, filterYYYY+"-"+filterMM)
+                setShopKindArray(shopKindArray)
+
+                // shoppingデータからshopping.priceを取得 種類ごとの合計金額
+                const priceKindArray = getKindPrice(shoppingData, filterYYYY+"-"+filterMM)
+                setPriceKindArray(priceKindArray)
+                // shoppingデータに合計金額を追加
+                const sumShoppingData = getSumShopping(shoppingData, filterYYYY+"-"+filterMM);
+                shoppingData.push(sumShoppingData)
+
+                // domにデータを反映
+                setShoppingAll(shoppingData)
+            }
         }
         fetchData();
 
@@ -153,13 +176,17 @@ export default function ShoppingIndex () {
             }
         ]
     } 
-    if (session) {
+    if (session  || demoMode) {
         return (
             <>
             <div>
-                <p>Componet C</p>
-                <p>{count}</p>
-                <button onClick={() => setCount(count + 1)}>+</button>
+                <p>
+                    {demoMode && 
+                        <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded" onClick={() => setDemoMode(false)}>
+                            demo exit
+                        </button>
+                    }
+                </p>
             </div>
                 <div className="container mx-auto">
                     <div className="App w-1/2 lg:w-1/3 mx-auto">
