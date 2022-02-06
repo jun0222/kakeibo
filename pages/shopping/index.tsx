@@ -18,6 +18,7 @@ import {
 
 import { Pie } from 'react-chartjs-2'
 import SigninForm from "../../components/SigninForm";
+import Link from "next/link";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -182,9 +183,14 @@ export default function ShoppingIndex () {
             <div>
                 <p>
                     {demoMode && 
+                        <>
                         <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded" onClick={() => setDemoMode(false)}>
                             demo exit
                         </button>
+                        <Link href="/shopping/new">
+                            <a>入力画面へ</a>
+                        </Link>
+                        </>
                     }
                 </p>
             </div>
