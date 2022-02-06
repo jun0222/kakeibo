@@ -2,10 +2,11 @@ import { useSession, signIn, signOut } from "next-auth/react" // https://next-au
 import SigninForm from "../components/SigninForm";
 import ShoppingIndex from './shopping';
 import Link from 'next/link'
-import { CountProvider } from '../components/DemoContext'
+import { useCountContext } from '../components/DemoContext'
 
 export default () => {
   const { data: session } = useSession()
+  const { demoMode } = useCountContext();
   if (session) {
     return (
       <>
@@ -14,17 +15,25 @@ export default () => {
         <Link href="/shopping/new">
             <a>入力画面へ</a>
         </Link>
-        <CountProvider>
-          <ShoppingIndex />
-        </CountProvider>
+        <ShoppingIndex />
+      </>
+    )
+  }
+  if (demoMode) {
+    return (
+      <>
+        Signed in as demo-user <br />
+        <button onClick={() => signOut()}>Sign out</button>
+        <Link href="/shopping/new">
+            <a>入力画面へ</a>
+        </Link>
+        <ShoppingIndex />
       </>
     )
   }
   return (
     <>
-      <CountProvider>
-        <SigninForm />
-      </CountProvider>
+      <SigninForm />
     </>
   )
 }
