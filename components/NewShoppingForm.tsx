@@ -156,7 +156,9 @@ export default function NewShoppingForm() {
                 </div>
             </>
             )
-    }else {
+    }
+
+    if (session) {
         const [form, update] = useState({
             date: today,
             type: "",
