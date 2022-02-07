@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react" // https://next-auth.js.org/
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import axios from "axios";
 import { useCountContext } from "./DemoContext";
@@ -27,14 +27,16 @@ export default function NewShoppingForm() {
 
     if(demoMode){
 
-        update({
-            date: today,
-            type: "",
-            shop: "",
-            product: "",
-            price: 0,
-            userId: "demo-mode"
-        })
+        useEffect(()=>{
+            update({
+                date: today,
+                type: "",
+                shop: "",
+                product: "",
+                price: 0,
+                userId: "demo-mode"
+            })
+        },[])
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
@@ -169,14 +171,16 @@ export default function NewShoppingForm() {
     }
 
     if (session) {
-        update({
-            date: today,
-            type: "",
-            shop: "",
-            product: "",
-            price: 0,
-            userId: session.user.email
-        })
+        useEffect(()=>{
+            update({
+                date: today,
+                type: "",
+                shop: "",
+                product: "",
+                price: 0,
+                userId: session.user.email
+            })
+        },[])
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
