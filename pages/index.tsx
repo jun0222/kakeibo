@@ -4,7 +4,7 @@ import ShoppingIndex from './shopping';
 import Link from 'next/link'
 import { useCountContext } from '../components/DemoContext'
 
-export default () => {
+export default function PagesIndex () {
   const { data: session } = useSession()
   const { demoMode } = useCountContext();
   if (session) {

@@ -4,7 +4,7 @@ import SigninForm from '../../components/SigninForm';
 import Link from 'next/link';
 import { useCountContext } from "../../components/DemoContext";
 
-export default () => {
+export default function ShoppingNew () {
     const { data: session } = useSession()
     const { demoMode } = useCountContext();
     if (session) {
