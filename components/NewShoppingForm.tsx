@@ -16,15 +16,25 @@ export default function NewShoppingForm() {
     }
     const today = formatDate(new Date());
 
+    const [form, update] = useState({
+        date: today,
+        type: "",
+        shop: "",
+        product: "",
+        price: 0,
+        userId: "demo-mode"
+    });
+
     if(demoMode){
-        const [form, update] = useState({
+
+        update({
             date: today,
             type: "",
             shop: "",
             product: "",
             price: 0,
             userId: "demo-mode"
-        });
+        })
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
@@ -159,14 +169,14 @@ export default function NewShoppingForm() {
     }
 
     if (session) {
-        const [form, update] = useState({
+        update({
             date: today,
             type: "",
             shop: "",
             product: "",
             price: 0,
             userId: session.user.email
-        });
+        })
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
