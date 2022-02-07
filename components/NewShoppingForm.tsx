@@ -25,18 +25,29 @@ export default function NewShoppingForm() {
         userId: "demo-mode"
     });
 
-    if(demoMode){
+    useEffect(()=>{
+        demoMode && update({
+            date: today,
+            type: "",
+            shop: "",
+            product: "",
+            price: 0,
+            userId: "demo-mode"
+        })
+    },[])
 
-        useEffect(()=>{
-            update({
-                date: today,
-                type: "",
-                shop: "",
-                product: "",
-                price: 0,
-                userId: "demo-mode"
-            })
-        },[])
+    useEffect(()=>{
+        session && update({
+            date: today,
+            type: "",
+            shop: "",
+            product: "",
+            price: 0,
+            userId: session.user.email
+        })
+    },[])
+
+    if(demoMode){
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
@@ -171,16 +182,6 @@ export default function NewShoppingForm() {
     }
 
     if (session) {
-        useEffect(()=>{
-            update({
-                date: today,
-                type: "",
-                shop: "",
-                product: "",
-                price: 0,
-                userId: session.user.email
-            })
-        },[])
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             await axios.post('/api/shopping', {
