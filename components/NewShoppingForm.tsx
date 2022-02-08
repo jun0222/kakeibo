@@ -34,9 +34,7 @@ export default function NewShoppingForm() {
             price: 0,
             userId: "demo-mode"
         })
-    },[])
 
-    useEffect(()=>{
         session && update({
             date: today,
             type: "",
