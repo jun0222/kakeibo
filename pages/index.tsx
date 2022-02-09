@@ -23,10 +23,6 @@ export default function PagesIndex () {
     return (
       <>
         Signed in as demo-user <br />
-        <button onClick={() => signOut()}>Sign out</button>
-        <Link href="/shopping/new">
-            <a>入力画面へ</a>
-        </Link>
         <ShoppingIndex />
       </>
     )
