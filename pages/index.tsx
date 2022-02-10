@@ -10,12 +10,14 @@ export default function PagesIndex () {
   if (session) {
     return (
       <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-        <Link href="/shopping/new">
-            <a>入力画面へ</a>
-        </Link>
-        <ShoppingIndex />
+        <div className="mt-6 w-3/4 mx-auto">
+          こんにちは！{session.user.email}さん！ <br />
+          <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded" onClick={() => signOut()}>ログアウト</button>
+          <Link href="/shopping/new">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">入力画面へ</button>
+          </Link>
+          <ShoppingIndex />
+        </div>
       </>
     )
   }
