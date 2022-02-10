@@ -22,8 +22,10 @@ export default function PagesIndex () {
   if (demoMode) {
     return (
       <>
-        Signed in as demo-user <br />
+      <div className="mt-6 w-3/4 mx-auto">
+        こんにちは！demo-userさん！<br />
         <ShoppingIndex />
+        </div>
       </>
     )
   }

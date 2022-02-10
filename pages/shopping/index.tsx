@@ -187,10 +187,10 @@ export default function ShoppingIndex () {
                     {demoMode && 
                         <>
                         <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded" onClick={() => setDemoMode(false)}>
-                            demo exit
+                            ログアウト
                         </button>
                         <Link href="/shopping/new">
-                            <a>入力画面へ</a>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">入力画面へ</button>
                         </Link>
                         </>
                     }
