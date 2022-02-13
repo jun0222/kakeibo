@@ -1,5 +1,6 @@
 // https://qiita.com/chimame/items/e97883fd46b67529d59f jestの文法
-// https://qiita.com/irico/items/0fa0cde39b1305c4b508 jestでimport文(es6)を使う方法 途中まで、jest: command not foundになっている
+// https://zenn.dev/dozo/articles/0091f1a3e790d6 typescript jest importエラーの対処法
+
 import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 const prisma = new PrismaClient();

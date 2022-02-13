@@ -1,7 +1,7 @@
 function sum(a, b) {
     return a + b;
 }
-module.exports = sum;
+export default sum;
 
 /*
 参考：https://github.com/facebook/jest
