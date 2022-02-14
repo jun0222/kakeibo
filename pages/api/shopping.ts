@@ -31,13 +31,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(201).json(createdShopping);
     }
     if (req.method === "DELETE") {
-        const params = req.body.params;
-        const deletedShopping = await prisma.shopping.delete({
-            where: {
-                id: params.id
-            }
-        })
-        res.status(204).json(deletedShopping);
+        const id = req.query.id;
+        if (typeof id === "string"){
+            const deletedShopping = await prisma.shopping.delete({
+                where: {
+                    id: id
+                }
+            })
+            return res.status(204).json(deletedShopping);
+        }
     }
 };
 
