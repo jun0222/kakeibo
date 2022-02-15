@@ -7,10 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test.watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watchAll"
+    "test": "jest"
   },
-  "type": "module",
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.1",
     "@prisma/client": "^3.8.1",
