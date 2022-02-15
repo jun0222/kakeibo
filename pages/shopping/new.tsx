@@ -11,7 +11,7 @@ export default function ShoppingNew () {
         return (
             <>
                 <Link href="/">
-                    <a>家計簿画面へ</a>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">家計簿画面へ</button>
                 </Link>
                 <NewShoppingForm />
             </>
@@ -21,7 +21,7 @@ export default function ShoppingNew () {
         return (
             <>
                 <Link href="/">
-                    <a>家計簿画面へ</a>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">家計簿画面へ</button>
                 </Link>
                 <NewShoppingForm />
             </>
