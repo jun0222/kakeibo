@@ -103,15 +103,21 @@ export default function ShoppingIndex () {
         return sumShoppingObj;
     }
 
-    async function deleteShopping (id) {
+    async function deleteShopping (id: string) {
+
+        // state（dom）操作を実装する。
+        // todo:合計金額に即時反映するようにする
+        const newShoppingAll = [...shoppingAll];
+        const deletedNewShoppingAll = newShoppingAll.filter(item => item.id !== id);
+        setShoppingAll(deletedNewShoppingAll);
+
         // db通信部分：動作OK
         await axios.delete('/api/shopping',{
             params: {
                 id
             }
         });
-
-        // state（dom）操作を実装する。
+        
     }
 
     // useEffectが2回呼ばれるようになっているので、直す https://qiita.com/daishi/items/9b42f93c1d0e75febb92
