@@ -277,8 +277,10 @@ export default function ShoppingIndex () {
                                                 <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.product}</td>
                                                 <td className="border border-gray-500 p-1 sm:px-4 sm:py-2">{shopping.shop}</td>
 
-                                                {/* 合計にも削除ボタンが出ているので、合計には出さない */}
-                                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-6 rounded" onClick={() => deleteShopping(shopping.id)} >削除</button>
+                                                {
+                                                    shopping.userId !== "合計" && 
+                                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-6 rounded" onClick={() => deleteShopping(shopping.id)} >削除</button>
+                                                }
                                             </tr>}
                                         </>
                                     )
