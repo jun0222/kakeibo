@@ -50,7 +50,25 @@ export default function NewShoppingForm() {
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
             // date以外も対応する
             if (form.date === "") {
-                window.alert('日付が未入力です')
+                window.alert('日付が未入力です');
+                return;
+            }
+            if (form.type === "") {
+                window.alert('分類が未入力です');
+                return;
+            }
+            if (form.shop === "") {
+                window.alert('店舗が未入力です');
+                return;
+            }
+            if (form.product === "") {
+                window.alert('品物が未入力です');
+                return;
+            }
+            if (form.price >= 0 && form.price <= 10000000) {
+            }else{
+                window.alert('金額が不正です');
+                return;
             }
 
             await axios.post('/api/shopping', {
