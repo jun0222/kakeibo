@@ -48,6 +48,11 @@ export default function NewShoppingForm() {
     if(demoMode){
 
         const saveShopping = async (ev: React.FormEvent<HTMLFormElement>) => {
+            // date以外も対応する
+            if (form.date === "") {
+                window.alert('日付が未入力です')
+            }
+
             await axios.post('/api/shopping', {
                 params: form
             })
