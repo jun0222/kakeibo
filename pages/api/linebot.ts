@@ -1,6 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// ここにlinebotで必要なデータを返すapiを書く。
+import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export default function handler(req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { name: string; }): void; new(): any; }; }; }): void {
-    res.status(200).json({ name: 'John Doe' })
-  }
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+    const shoppings = await prisma.shopping.findMany({});
+    res.status(200).json({ shoppingsAll: shoppings })
+}
   
