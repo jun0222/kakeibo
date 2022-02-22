@@ -39,12 +39,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const foodExpensesPaidAverage = Math.ceil(foodExpensesPaidThisMonth / nowDate.getDate());
     const foodExpensesPaidAverageMessage = `1日平均`+foodExpensesPaidAverage+`円だよ`
 
+    // 今月の利用外食費
+    // →「今月の食費利用額」と同様の方法で取得するが、
+    // 店舗に該当するカラムが外食のものだけで絞る。
+    const eatingOutPaidThisMonth = shoppings.map(
+        item => item.shop === "外食" && item.price
+    ).reduce(
+        (prev, curr) => prev + curr, 0
+    );
+    const eatingOutPaidThisMonthMessage = `うち外食費は`+eatingOutPaidThisMonth+`円`
+
+
     // apiを叩いたら返すjsonを整形
     res.status(200).json({ 
         botMessages: {
             // この辺りの変数名も無駄な情報が多いのでコメントや階層をうまく使ってスマートにする
-            foodExpensesPaidThisMonthMessage: foodExpensesPaidThisMonthMessage,
-            foodExpensesPaidAverageMessage: foodExpensesPaidAverageMessage
+            foodExpensesPaidThisMonthMessage,
+            foodExpensesPaidAverageMessage,
+            eatingOutPaidThisMonthMessage
         }
     })
 }
