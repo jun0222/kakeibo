@@ -31,10 +31,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const foodExpensesPaidThisMonth = shoppings.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
     const foodExpensesPaidThisMonthMessage = `今月の食費利用額は`+foodExpensesPaidThisMonth+`円だよ` // バッククオート文字列の中で変数を使うようにする
 
+    // 今月の1日平均食費利用額
+    // →上記の「今月の食費利用額」を今月の日数（Dateライブラリ利用？）で割る、
+    // 割ったものを今月すでに経過した日数でかける。
+
+    // 経過日数=今の日数として平均を出して、Math.ceilで小数点を丸めている
+    const foodExpensesPaidAverage = Math.ceil(foodExpensesPaidThisMonth / nowDate.getDate());
+    const foodExpensesPaidAverageMessage = `1日平均`+foodExpensesPaidAverage+`円だよ`
+
     // apiを叩いたら返すjsonを整形
     res.status(200).json({ 
         botMessages: {
-            foodExpensesPaidThisMonthMessage: foodExpensesPaidThisMonthMessage
+            // この辺りの変数名も無駄な情報が多いのでコメントや階層をうまく使ってスマートにする
+            foodExpensesPaidThisMonthMessage: foodExpensesPaidThisMonthMessage,
+            foodExpensesPaidAverageMessage: foodExpensesPaidAverageMessage
         }
     })
 }
