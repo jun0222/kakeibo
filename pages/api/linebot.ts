@@ -54,6 +54,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const foodCostRatio =  Math.ceil(eatingOutPaidThisMonth / foodExpensesPaidThisMonth * 100);
     const foodCostRatioMessage = `外食費は全体の`+foodCostRatio+`%だよ`
 
+    // 今のペースでいけば月末までに〜〜円使うという金額
+    // →「今月の1日平均食費利用額」に似ているが、
+    // 割ったものに経過日数ではなく、月初から月末までの日数でかける
+    const endOfTheMonth = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0)
+    const expectedCost = Math.ceil(foodExpensesPaidAverage * endOfTheMonth.getDate())
+    const expectedCostMessage = `今月の食費予想額は`+expectedCost+`円だよ`
+
     // apiを叩いたら返すjsonを整形
     res.status(200).json({ 
         botMessages: {
@@ -61,7 +68,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             foodExpensesPaidThisMonthMessage,
             foodExpensesPaidAverageMessage,
             eatingOutPaidThisMonthMessage,
-            foodCostRatioMessage
+            foodCostRatioMessage,
+            expectedCostMessage
         }
     })
 }
