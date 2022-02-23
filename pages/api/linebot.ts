@@ -49,6 +49,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     );
     const eatingOutPaidThisMonthMessage = `うち外食費は`+eatingOutPaidThisMonth+`円`
 
+    // 今月の食費全体に占める外食費の割合
+    // →「今月の利用外食費」/ 「今月の食費利用額」 * 100
+    const foodCostRatio =  Math.ceil(eatingOutPaidThisMonth / foodExpensesPaidThisMonth * 100);
+    const foodCostRatioMessage = `外食費は全体の`+foodCostRatio+`%だよ`
 
     // apiを叩いたら返すjsonを整形
     res.status(200).json({ 
@@ -56,7 +60,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // この辺りの変数名も無駄な情報が多いのでコメントや階層をうまく使ってスマートにする
             foodExpensesPaidThisMonthMessage,
             foodExpensesPaidAverageMessage,
-            eatingOutPaidThisMonthMessage
+            eatingOutPaidThisMonthMessage,
+            foodCostRatioMessage
         }
     })
 }
