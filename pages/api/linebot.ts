@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const shoppings = await prisma.shopping.findMany({
         where: {
-            userId: "jundev63@gmail.com", // ハードコーディングしているので、該当ユーザーのメールアドレスを使うようにするLINE連携画面が必要？
+            userId: "demo-mode", // ハードコーディングしているので、該当ユーザーのメールアドレスを使うようにするLINE連携画面が必要？
 
             // 月初,月末がうまく取れなかったので今月の01日〜31日を取得
             date: {
