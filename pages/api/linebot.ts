@@ -7,9 +7,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // 計算用の日付
     const nowDate = new Date(); // 今日
-    const nowYear = nowDate.getFullYear().toString(); // 今年
-    const nowMonth = nowDate.getMonth() + 1; // 今月
-    const nowMonthPadding =  ( '00' + nowMonth ).slice( -2 ); // 今月の0埋め
     const nowMonthFirst = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1); // 月初の日付
     const nowMonthLast = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0); // 月末の日付
 
