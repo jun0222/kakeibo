@@ -1,75 +1,62 @@
-// ここにlinebotで必要なデータを返すapiを書く。
+// LINEbot用API -> 現状は食費関連メッセージのapiとして実装している。個人で設定可能にする
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
-    // 今月の食費利用額
-    // →今月はDate newなど？で取得し、
-    // 　DBから取得した今月のshoppingのprice合計値を出す。
+    // 計算用の日付
+    const nowDate = new Date(); // 今日
+    const nowYear = nowDate.getFullYear().toString(); // 今年
+    const nowMonth = nowDate.getMonth() + 1; // 今月
+    const nowMonthPadding =  ( '00' + nowMonth ).slice( -2 ); // 今月の0埋め
+    const nowMonthFirst = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1); // 月初の日付
+    const nowMonthLast = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0); // 月末の日付
 
-    // 今月のYYYYとDDを取得
-    const nowDate = new Date()
-    const toYear = nowDate.getFullYear().toString();
-    const toMonth = nowDate.getMonth() + 1;
-    const toMonthZeroPadding =  ( '00' + toMonth ).slice( -2 );
-
+    // 今月のshoppingを取得
     const shoppings = await prisma.shopping.findMany({
         where: {
-            userId: "demo-mode", // ハードコーディングしているので、該当ユーザーのメールアドレスを使うようにするLINE連携画面が必要？
-
-            // 月初,月末がうまく取れなかったので今月の01日〜31日を取得
+            userId: "demo-mode", // ハードコーディングしているので、該当ユーザーのメールアドレスを使うようにするLINE連携画面が必要？userIdのテーブルを分けたい。
             date: {
-                gte: new Date(toYear+`-`+toMonthZeroPadding+`-01`),
-                lt:  new Date(toYear+`-`+toMonthZeroPadding+`-31`)
+                gte: nowMonthFirst,
+                lt:  nowMonthLast
             }
         }
     });
 
-    // shoppingsの各objのpriceを合計する
-    const foodExpensesPaidThisMonth = shoppings.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
-    const foodExpensesPaidThisMonthMessage = `今月の食費利用額は`+foodExpensesPaidThisMonth+`円だよ` // バッククオート文字列の中で変数を使うようにする
+    // 今月の食費利用額
+    const costSum = shoppings.map(item => item.price).reduce((prev, curr) => prev + curr, 0);
+    const costSumMsg = `今月の食費利用額は`+costSum+`円だよ` // バッククオート文字列の中で変数を使うようにする
 
-    // 今月の1日平均食費利用額
-    // →上記の「今月の食費利用額」を今月の日数（Dateライブラリ利用？）で割る、
-    // 割ったものを今月すでに経過した日数でかける。
-
-    // 経過日数=今の日数として平均を出して、Math.ceilで小数点を丸めている
-    const foodExpensesPaidAverage = Math.ceil(foodExpensesPaidThisMonth / nowDate.getDate());
-    const foodExpensesPaidAverageMessage = `1日平均`+foodExpensesPaidAverage+`円だよ`
+    // 食費の1日平均
+    const contAve = Math.ceil(costSum / nowDate.getDate());
+    const contAveMsg = `1日平均`+contAve+`円だよ`
 
     // 今月の利用外食費
-    // →「今月の食費利用額」と同様の方法で取得するが、
-    // 店舗に該当するカラムが外食のものだけで絞る。
-    const eatingOutPaidThisMonth = shoppings.map(
+    const outCostSum = shoppings.map(
         item => item.shop === "外食" && item.price
     ).reduce(
         (prev, curr) => prev + curr, 0
     );
-    const eatingOutPaidThisMonthMessage = `うち外食費は`+eatingOutPaidThisMonth+`円`
+    const outCostSumMsg = `うち外食費は`+outCostSum+`円`
 
-    // 今月の食費全体に占める外食費の割合
-    // →「今月の利用外食費」/ 「今月の食費利用額」 * 100
-    const foodCostRatio =  Math.ceil(eatingOutPaidThisMonth / foodExpensesPaidThisMonth * 100);
-    const foodCostRatioMessage = `外食費は全体の`+foodCostRatio+`%だよ`
+    // 外食費率
+    const costRatio =  Math.ceil(outCostSum / costSum * 100);
+    const costRatioMsg = `外食費は全体の`+costRatio+`%だよ`
 
-    // 今のペースでいけば月末までに〜〜円使うという金額
-    // →「今月の1日平均食費利用額」に似ているが、
-    // 割ったものに経過日数ではなく、月初から月末までの日数でかける
-    const endOfTheMonth = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0)
-    const expectedCost = Math.ceil(foodExpensesPaidAverage * endOfTheMonth.getDate())
-    const expectedCostMessage = `今月の食費予想額は`+expectedCost+`円だよ`
+    // 食費予想額
+    const costPace = Math.ceil(contAve * nowMonthLast.getDate())
+    const costPaceMsg = `今月の食費予想額は`+costPace+`円だよ`
 
     // apiを叩いたら返すjsonを整形
     res.status(200).json({ 
-        botMessages: {
-            // この辺りの変数名も無駄な情報が多いのでコメントや階層をうまく使ってスマートにする
-            foodExpensesPaidThisMonthMessage,
-            foodExpensesPaidAverageMessage,
-            eatingOutPaidThisMonthMessage,
-            foodCostRatioMessage,
-            expectedCostMessage
+        msgs: {
+            // 全部にMsgがついていて冗長なので連想配列を使う？
+            costSumMsg,
+            contAveMsg,
+            outCostSumMsg,
+            costRatioMsg,
+            costPaceMsg
         }
     })
 }
